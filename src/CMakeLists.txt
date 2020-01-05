@@ -12,6 +12,7 @@ set(EXTRA_PROBE_MODULES
 
 # ADD YOUR OUTPUT MODULE HERE
 set(EXTRA_OUTPUT_MODULES
+    output_modules/module_kafka.c
 )
 
 set(OUTPUT_MODULE_SOURCES
@@ -23,6 +24,10 @@ set(OUTPUT_MODULE_SOURCES
 # Handle optional output modules
 if(WITH_REDIS)
     set(OUTPUT_MODULE_SOURCES ${OUTPUT_MODULE_SOURCES} output_modules/module_redis_packed.c output_modules/module_redis_csv.c)
+endif()
+
+if(WITH_KAFKA)
+    set(OUTPUT_MODULE_SOURCES ${OUTPUT_MODULE_SOURCES} output_modules/module_kafka.c)
 endif()
 
 set(PROBE_MODULE_SOURCES
@@ -226,6 +231,15 @@ target_link_libraries(
     ${REDIS_LIBS}
     ${JSON_LIBRARIES}
 )
+# librdkafka uses -lrdkafka as its link name, so you can't just include the libs name.
+if (WITH_KAFKA)
+target_link_libraries(
+        zmap
+        rdkafka
+)
+endif()
+
+
 
 target_link_libraries(
     zblacklist
@@ -255,6 +269,14 @@ target_link_libraries(
     ${REDIS_LIBS}
     ${JSON_LIBRARIES}
 )
+
+# librdkafka uses -lrdkafka as its link name, so you can't just include the libs name.
+if (WITH_KAFKA)
+    target_link_libraries(
+            ztests
+            rdkafka
+    )
+endif()
 
 # Install binary
 install(
