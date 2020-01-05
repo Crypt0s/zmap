@@ -15,7 +15,9 @@ SET(LIB_SOURCES
 if (WITH_REDIS)
     SET(LIB_SOURCES ${LIB_SOURCES} redis.c)
 endif()
-
+#if (WITH_KAFKA)
+#    SET(LIB_SOURCES ${LIB_SOURCES} librdkafka.c)
+#endif()
 add_library(zmaplib STATIC ${LIB_SOURCES})
 
 target_include_directories (zmaplib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
