@@ -26,9 +26,10 @@
 
 int redis_parse_connstr(char *connstr, redisconf_t *redis_conf)
 {
+    // Zero-out the error message
 	memset(redis_conf->error, 0, ZMAP_REDIS_ERRLEN);
+
 	if (!strncmp("tcp://", connstr, 6)) {
-		// Zero-out the error message
 		char *servername = xmalloc(strlen(connstr));
 		char *list_name = xmalloc(strlen(connstr));
 		uint32_t port;
@@ -84,7 +85,7 @@ int redis_parse_connstr(char *connstr, redisconf_t *redis_conf)
 	} else {
 		char *back =
 		    stpncpy(&redis_conf->error[0],
-			    "redis connection string does not being with "
+			    "redis connection string does not begin with "
 			    "tcp:// or local://",
 			    ZMAP_REDIS_ERRLEN);
 		*back = '\0';
