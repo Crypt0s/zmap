@@ -3,6 +3,7 @@ project(ZMAP C)
 set(ZMAP_VERSION DEVELOPMENT) # Change DEVELOPMENT to version number for release
 
 option(WITH_REDIS "Build with support for Redis DB" OFF)
+option(WITH_KAFKA "Build with support for Kafka Queue using librdkafka" OFF)
 option(ENABLE_DEVELOPMENT "Enable development specific compiler and linker flags" OFF)
 option(ENABLE_LOG_TRACE "Enable log trace messages" OFF)
 option(RESPECT_INSTALL_PREFIX_CONFIG "Respect CMAKE_INSTALL_PREFIX for /etc" OFF)
@@ -79,6 +80,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${JSON_CFLAGS}")
 if(WITH_REDIS)
     set(REDIS_LIBS hiredis)
     add_definitions("-DREDIS")
+endif()
+
+if(WITH_KAFKA)
+    set(KAFKA_LIBS librdkafka)
+    MESSAGE("Enabling Support for Apache Kafka Message Production")
+    add_definitions("-DKAFKA")
 endif()
 
 if(WITH_PFRING)
