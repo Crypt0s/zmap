@@ -23,6 +23,9 @@ extern output_module_t module_csv_redis;
 #ifdef MONGODB
 extern output_module_t module_mongodb;
 #endif
+#ifdef KAFKA
+extern output_module_t module_kafka;
+#endif
 
 output_module_t *output_modules[] = {
     &module_csv_file, &module_json_file,
@@ -31,6 +34,9 @@ output_module_t *output_modules[] = {
 #endif
 #ifdef MONGODB
     &module_mongodb,
+#endif
+#ifdef KAFKA
+    &module_kafka,
 #endif
     // ADD YOUR MODULE HERE
 };
